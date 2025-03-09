@@ -372,7 +372,8 @@
     <script>
         function hideVideoOverlay() {
             document.getElementById('videoOverlay').style.display = 'none';
-
+              // Scroll to the header smoothly after video ends
+            document.querySelector('.header').scrollIntoView({ behavior: 'smooth' });  
              // Add click listener to start audio
             document.addEventListener('click', function playAudio() {
                 const audio = new Audio('audio.mp3');
