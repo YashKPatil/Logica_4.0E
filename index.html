@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logica 4.0</title>
+    <link rel="icon" href="data:," />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-y: auto; 
+            overflow-x: hidden; 
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .video-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Show full video without cropping */
+            background-color: #000; /* Ensures black borders fill empty space */
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(0, 0, 0, 0.3); /* Increased transparency */
+            backdrop-filter: blur(1px); /* Light blur effect for readability */
+            opacity: 1;
+            padding: 10px 20px;
+            border-bottom: 4px solid #8a6d3b;
+        }
+
+        .logo img {
+            height: 70px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #8a6d3b;
+            font-weight: bold;
+            padding: 5px 10px;
+            border: 2px solid #8a6d3b;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: #8a6d3b;
+            color: #121212;
+        }
+
+        .hero-section {
+            height: 100vh;
+            background: url('img3.jpg') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-section h1 {
+            font-size: 5rem;
+            color: #f1c40f;
+            text-shadow: 3px 3px 15px #000;
+            font-weight: bold;
+        }
+
+        .hero-section p {
+            font-size: 2rem;
+            color: #e0e0e0;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            color: #f1c40f;
+            font-weight: bold;
+            margin-top: 20px;
+            text-shadow: 2px 2px 10px #000;
+        }
+        /* Location Section */
+        .map-container {
+            border: 3px solid #8a6d3b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+            .footer {
+        background-color: #1c1c1c;
+        padding: 20px;
+        color: #e0e0e0;
+        border-top: 4px solid #8a6d3b;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        text-align: center;
+        }
+
+        .footer-container {
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .contact-details,
+        .social-media,
+        .website-link {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer h3 {
+            color: #f1c40f;
+        }
+
+        .social-media img {
+            width: 36px;
+            margin: 0 10px;
+            transition: transform 0.3s;
+        }
+
+        .social-media img:hover {
+            transform: scale(1.2);
+        }
+
+        .website-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .website-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px; /* Space between text and icon */
+            text-decoration: none;
+            color: #121212;
+            background: linear-gradient(135deg, #f1c40f, #ff9f1c);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.6); 
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .website-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 159, 28, 0.9);  
+        }
+            .register-btn-container {
+                 margin-top: 20px;
+            }
+
+    .register-btn {
+        display: inline-block;
+        background: linear-gradient(135deg, #f1c40f, #ff9f1c);
+        color: #121212;
+        padding: 12px 25px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 15px rgba(241, 196, 15, 0.6);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .register-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(255, 159, 28, 0.9);
+    }
+
+    </style>
+</head>
+<body>
+    <!-- Video Intro --> 
+    <div class="video-overlay" id="videoOverlay">
+        <video  muted     autoplay onended="hideVideoOverlay()">
+            <source src="./video2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Header -->
+
+    <div class="header">
+        <div class="logo">
+            <img src="acmrscoelogo.png" alt="Organization Logo">
+        </div>
+        <div class="nav-links">
+           <a href="#important-dates">Event Details</a>
+            <a href="#force">Contact</a>
+            <a href="#location">Location</a>
+
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero-section" id="Home">
+        <h1>Logica 4.0</h1>
+        <p>A National Level Project Competition</p>
+        <div class="tagline">"Unravel the Mystery! Conquer Two Mind-Bending Challenges!"</div>
+        <div class="register-btn-container">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfsUjt4u5CsAM7lhRpV0HBDUsLA_fwOgErKe8cy93FkobGU2w/viewform" target="_blank" class="register-btn">
+                Register Now
+            </a>
+        </div>
+        
+    </div>
+
+
+
+
+        <!-- Important Dates Section -->
+        <div class="container my-5" id="important-dates">
+            <h2 class="text-center mb-4" style="color: #f1c40f; text-shadow: 2px 2px 10px #000; font-size: 3rem;">Important Dates</h2>
+            <div class="row g-5">
+                <div class="col-md-4 mx-auto">
+                    <div class="card bg-dark text-light border-warning shadow-lg p-3" style="transition: transform 0.3s; width: 100%;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div class="card-body text-center">
+                            <h4 class="card-title" style="color: #f1c40f;">Round 1 - Initial Screening</h4>
+                            <p><strong>28th March 2025</strong></p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-4 mx-auto">
+                    <div class="card bg-dark text-light border-warning shadow-lg p-3" style="transition: transform 0.3s; width: 100%;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div class="card-body text-center">
+                            <h4 class="card-title" style="color: #f1c40f;">Round 2 - Final Evaluation</h4>
+                            <p><strong>29th March 2025</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+    <!-- Event Rounds Section -->
+     <div class="container my-5" id="event-rounds">
+        <h2 class="text-center mb-4" style="color: #f1c40f; text-shadow: 3px 3px 15px #000; font-size: 3rem;">Event Rounds</h2>
+        <div class="row">
+            <div class="col-md-6 d-flex align-items-stretch">
+                <div class="card bg-dark text-light border-warning p-3 shadow-sm" style="transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"><div class="card-body">
+                        <h4 class="card-title mb-4 " style="color: #f1c40f; display: flex ;justify-content: center;">Round 1: Initial Screening</h4>
+                        <p>Participants will present their projects and demonstrate feasibility, innovation, and impact.</p>
+                        <ul>
+                            <li>Technical soundness and implementation.</li>
+                            <li>Innovation and creativity.</li>
+                            <li>Feasibility and practical application.</li>
+                            <li>Clear and effective presentation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 d-flex align-items-stretch">
+                <div class="card bg-dark text-light border-warning p-3 shadow-sm" style="transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"><div class="card-body">
+                        <h4 class="card-title mb-4" style="color: #f1c40f; display: flex; justify-content: center;">Round 2: Final Evaluation</h4>
+                        <p>Shortlisted teams will provide detailed demonstrations based on project type.</p>
+                        <ul>
+                            <li>Hardware projects: Working prototype or model.</li>
+                            <li>Software projects: Functional system.</li>
+                            <li>Integrated projects: Demonstration of integrated systems.</li>
+                            <li>Evaluated based on technical depth, impact, and scalability.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+      <!-- Information Section -->
+    <div class="container my-5" id="info">
+        <h2 class="text-center mb-4" style="color: #f1c40f; text-shadow: 2px 2px 10px #000; font-size: 3rem;">Information</h2>
+        <div class="card bg-dark text-light border-warning shadow-lg p-4">
+            <div class="card-body text-center">
+                <p class="mb-3">For detailed information, refer to the Rule Book:</p>
+                <a href="https://drive.google.com/file/d/1Mrb_qXN1-VsMh4tJbfBfJi7wDqYqej5u/view?usp=sharing" target="_blank" class="btn btn-warning btn-lg  website-btn" style="transition: transform 0.3s, background-color 0.3s;" 
+                   onmouseover="this.style.transform='scale(1.1)'; this.style.backgroundColor='#ffcc00';" 
+                   onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#ffc107';">
+                   View Rule Book
+                </a>
+                <hr class="my-4">
+                <ul class="text-start">
+                    <li>Awards and Recognition</li>
+                    <li>Participation Guidelines</li>
+                    <li>General Rules and Regulations</li>
+                </ul>
+            </div>
+        </div>
+    </div>  
+
+    <!-- Location Section -->
+    <div class="container my-5" id="location">
+        <h2 class="text-center mb-4" style="color: #f1c40f; text-shadow: 2px 2px 10px #000; font-size: 3rem;">
+            Event Location
+        </h2>
+
+        <div class="card bg-dark text-light border-warning shadow-lg p-4">
+            <div class="card-body text-center">
+                <h4 style="color: #f1c40f;">📍 JSPM's Rajarshi Shahu College of Engineering, Pune</h4>
+                <p>Near Pune-Mumbai Bypass, Tathawade, Pune - 411033</p>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22989.6751859416!2d73.74517044556589!3d18.621455352378337!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bbbc138acb7b%3A0x67043867a211a31d!2sJSPM%20Rajarshi%20Shahu%20College%20Of%20Engineering%20%2C%20Tathawade!5e0!3m2!1sen!2sin!4v1741467791502!5m2!1sen!2sin" width="100%" 
+                    height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    
+    <!-- Footer Section -->
+<footer class="footer" id="force">
+    <div class="footer-container">
+       
+
+        <div class="social-media">
+            <h3>Follow Us:</h3>
+            <a href="https://www.instagram.com" target="_blank">
+                <img src="instagram-alt-logo-36.png" alt="Instagram">
+            </a>
+            <a href="https://www.youtube.com" target="_blank">
+                <img src="youtube-logo-36.png" alt="YouTube">
+            </a>
+            <a href="https://www.linkedin.com" target="_blank">
+                <img src="linkedin-square-logo-36.png" alt="LinkedIn">
+            </a>
+        </div>
+        <div class="contact-details">
+            <h3>Contact:</h3>
+            <p>Meera Chaudhari (+91 9665168941)</p>
+            <p>Shreeyash Pawar (+91 91724 80794)</p>
+            <p>Swayam Deshmukh (+91 93250 62460)</p>
+        </div>
+        <div class="website-link">
+            <h3>Visit Our Website:</h3>
+            <a href="https://rscoe.acm.org/" target="_blank" class="website-btn">
+                ACM RSCOE Official Site
+            </a>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        function hideVideoOverlay() {
+            document.getElementById('videoOverlay').style.display = 'none';
+
+             // Add click listener to start audio
+            document.addEventListener('click', function playAudio() {
+                const audio = new Audio('audio.mp3');
+                audio.loop = false;
+                audio.play().catch(error => console.warn('Audio playback prevented:', error));
+
+                // Remove the click listener after the audio starts
+                document.removeEventListener('click', playAudio);
+            }, { once: true }); // Ensures the listener runs only once
+            }
+    </script>
+</body>
+</html>
